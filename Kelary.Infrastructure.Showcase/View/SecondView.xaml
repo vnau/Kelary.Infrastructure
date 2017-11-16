@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Kelary.Infrastructure.Showcase.View.SecondView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kelary.Infrastructure.Showcase.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Background="#e1bee7"
+					  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+					  TextAlignment="Center" FontSize="30"
+					  Text="Second View"/>
+        <WrapPanel  Grid.Row="1" HorizontalAlignment="Right">
+            <Button Command="{Binding CommandBack}"
+					  Content="&lt; Back"
+					  VerticalAlignment="Stretch"
+					  Width="75" Height="30" Margin="10"/>
+            <Button Command="{Binding CommandForward}"
+                      IsEnabled="False"
+					  Content="Forward &gt;"
+					  VerticalAlignment="Stretch"
+					  Width="75" Height="30" Margin="10"/>
+        </WrapPanel>
+    </Grid>
+</UserControl>

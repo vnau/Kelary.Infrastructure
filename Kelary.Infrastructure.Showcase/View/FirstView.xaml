@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Kelary.Infrastructure.Showcase.View.FirstView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Background="#f8bbd0"
+					  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+					  TextAlignment="Center" FontSize="30"
+					  Text="First View"/>
+        <Button Width="150" Height="30" Command="{Binding CommandStart}">File Dialog Service</Button>
+        <WrapPanel  Grid.Row="1" HorizontalAlignment="Right">
+            <Button Command="{Binding CommandBack}"
+                      IsEnabled="False"
+					  Content="&lt; Back"
+					  VerticalAlignment="Stretch"
+					  Width="75" Height="30" Margin="10"/>
+            <Button Command="{Binding CommandForward}"
+					  Content="Forward &gt;"
+					  VerticalAlignment="Stretch"
+					  Width="75" Height="30" Margin="10"/>
+        </WrapPanel>
+    </Grid>
+</UserControl>

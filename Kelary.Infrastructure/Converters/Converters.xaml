@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Kelary.Infrastructure.Converters">
+    <!-- Converters -->
+    <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <local:DarkenColorConverter x:Key="DarkenColorConverter"/>
+    <local:DoubleIsNanToVisibilityConverter x:Key="DoubleIsNanToVisibilityConverter"/>
+    <local:EqualToBooleanConverter x:Key="EqualToBooleanConverter"/>
+    <local:EqualToVisibilityConverter x:Key="EqualToVisibilityConverter"/>
+    <local:InequalToVisibilityConverter x:Key="InequalToVisibilityConverter"/>
+    <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    <local:LinearTransformConverter x:Key="LinearTransformConverter"/>
+    <local:MethodToValueConverter x:Key="MethodToValueConverter"/>
+    <local:NullStringToVisibilityConverter x:Key="NullStringToVisibilityConverter"/>
+    <local:SiUnitsToStringConverter x:Key="SiUnitsToStringConverter"/>
+</ResourceDictionary>
