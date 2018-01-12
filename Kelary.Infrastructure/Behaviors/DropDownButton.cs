@@ -40,9 +40,9 @@ namespace Kelary.Infrastructure.Behaviors
     ///      <Button.ContextMenu>
     ///          <ContextMenu>
     ///              <MenuItem Header = "Menu item" />
-    ///          </ ContextMenu >
+    ///          </ContextMenu >
     ///      </ Button.ContextMenu >
-    ///  </ Button >
+    ///  </Button >
     /// 
     public class DropDownButton : Behavior<ButtonBase>
     {

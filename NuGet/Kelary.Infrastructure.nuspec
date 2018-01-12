@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Kelary.Infrastructure</id>
+    <version>1.3.0</version>
+    <title>Kelary.Infrastructure</title>
+    <authors>Kelary Team</authors>
+    <owners>vnau</owners>
+    <licenseUrl>https://github.com/vnau/Kelary.Infrastructure/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/vnau/Kelary.Infrastructure</projectUrl>
+    <iconUrl>http://kelary.ru/kelary.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Provides infrastructure helpers and services to ease WPF applications development.</description>
+    <releaseNotes>Removed packages dependencies.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>xaml wpf infrastructure</tags>
+  </metadata>
+  <files>
+    <file src="..\External\NET45\System.Windows.Interactivity.dll" target="lib\net45\System.Windows.Interactivity.dll"/>
+    <file src="..\Kelary.Infrastructure\bin\Debug\Kelary.Infrastructure.dll" target="lib\net45\Kelary.Infrastructure.dll"/>
+    <file src="..\Kelary.Infrastructure\bin\Debug\Kelary.Infrastructure.xml" target="lib\net45\Kelary.Infrastructure.xml"/>
+    <file src="..\Kelary.Infrastructure\bin\Debug\Kelary.Infrastructure.pdb" target="lib\net45\Kelary.Infrastructure.pdb"/>
+  </files>
+</package>
