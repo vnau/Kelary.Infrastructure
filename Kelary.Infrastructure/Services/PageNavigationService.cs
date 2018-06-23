@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using PageTuple = System.Tuple<string, System.Windows.FrameworkElement>;
 
 namespace Kelary.Infrastructure.Services
 {
@@ -33,51 +34,52 @@ namespace Kelary.Infrastructure.Services
     public class PageNavigationService : IPageNavigationService, IObservable<object>
     {
         #region Fields
-        private readonly Dictionary<string, Uri> _pagesByKey;
-        private readonly List<string> _historic;
-        private string _currentPageKey;
+        private readonly Dictionary<string, Uri> pagesByKey;
+        private Stack<PageTuple> pageStack;
+        private readonly List<IObserver<object>> observers = new List<IObserver<object>>();
         #endregion
 
         public PageNavigationService()
         {
-            _pagesByKey = new Dictionary<string, Uri>();
-            _historic = new List<string>();
+            pagesByKey = new Dictionary<string, Uri>();
+            pageStack = new Stack<PageTuple>();
         }
 
         public void Configure(string key, Uri pageType)
         {
-            lock (_pagesByKey)
+            lock (pagesByKey)
             {
-                if (_pagesByKey.ContainsKey(key))
+                if (pagesByKey.ContainsKey(key))
                 {
-                    _pagesByKey[key] = pageType;
+                    pagesByKey[key] = pageType;
                 }
                 else
                 {
-                    _pagesByKey.Add(key, pageType);
+                    pagesByKey.Add(key, pageType);
                 }
             }
         }
 
+        /// <summary>
+        /// Returns a key of the current page
+        /// </summary>
         public string CurrentPageKey
         {
             get
             {
-                return _currentPageKey;
+                return pageStack.FirstOrDefault().Item1;
             }
         }
 
         public void GoBack()
         {
-            if (PageStack.Any())
+            if (pageStack.Any())
             {
-                var control = PageStack.Pop();
+                var control = pageStack.Pop();
                 //control.Close();
                 RaiseTop();
             }
         }
-
-        Stack<FrameworkElement> PageStack = new Stack<FrameworkElement>();
 
         public void NavigateTo(string pageKey)
         {
@@ -86,57 +88,54 @@ namespace Kelary.Infrastructure.Services
 
         public void NavigateTo(string pageKey, object parameter)
         {
-            if (_pagesByKey.ContainsKey(pageKey))
+            if (pagesByKey.ContainsKey(pageKey))
             {
-                var uri = _pagesByKey[pageKey];
+                var uri = pagesByKey[pageKey];
                 var control = Application.LoadComponent(uri) as FrameworkElement;
                 if (parameter != null)
                     control.DataContext = parameter;
-                PageStack.Push(control);
-                _currentPageKey = pageKey;
+                pageStack.Push(new PageTuple(pageKey, control));
                 RaiseTop();
             }
         }
-
-        private readonly List<IObserver<object>> _observers = new List<IObserver<object>>();
-
 
         /// <summary>
         /// Notify all observers.
         /// </summary>
         private void RaiseTop()
         {
-            var top = PageStack.FirstOrDefault();
-            _observers.ForEach(o => o.OnNext(top));
+            var top = pageStack.FirstOrDefault().Item2;
+            observers.ForEach(o => o.OnNext(top));
         }
 
         private void Completion()
         {
-            _observers.ForEach(o => o.OnCompleted());
-            _observers.Clear();
+            observers.ForEach(o => o.OnCompleted());
+            observers.Clear();
         }
+
         public IDisposable Subscribe(IObserver<object> observer)
         {
-            var subscription = new Subscription(() => _observers.Remove(observer));
-            _observers.Add(observer);
+            var subscription = new Subscription(() => observers.Remove(observer));
+            observers.Add(observer);
             // Notify the subscriber 
-            if (PageStack.Any())
-                observer.OnNext(PageStack.Last());
+            if (pageStack.Any())
+                observer.OnNext(pageStack.Last().Item2);
             return subscription;
         }
 
 
         class Subscription : IDisposable
         {
-            private readonly Action _onDispose;
+            private readonly Action onDispose;
             public Subscription(Action onDispose)
             {
-                _onDispose = onDispose;
+                this.onDispose = onDispose;
             }
 
             public void Dispose()
             {
-                _onDispose();
+                onDispose();
             }
         }
     }
