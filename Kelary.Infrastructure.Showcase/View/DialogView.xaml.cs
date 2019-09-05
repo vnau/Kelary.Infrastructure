@@ -5,9 +5,9 @@ namespace Kelary.Infrastructure.Showcase.View
     /// <summary>
     /// Interaction logic for SecondView.xaml
     /// </summary>
-    public partial class SecondView : UserControl
+    public partial class DialogView : UserControl
     {
-        public SecondView()
+        public DialogView()
         {
             InitializeComponent();
         }

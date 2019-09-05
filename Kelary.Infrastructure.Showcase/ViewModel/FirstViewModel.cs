@@ -24,6 +24,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Kelary.Infrastructure.Services;
 using Microsoft.Practices.ServiceLocation;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Kelary.Infrastructure.Showcase.ViewModel
@@ -45,13 +46,13 @@ namespace Kelary.Infrastructure.Showcase.ViewModel
             Navigation?.NavigateTo("second", new SecondViewModel());
         }
 
-        public ICommand CommandStart
+        public ICommand CommandShowFileDialog
         {
-            get => new RelayCommand(OnStart);
+            get => new RelayCommand(OnShowFileDialog);
         }
 
 
-        private async void OnStart()
+        private async void OnShowFileDialog()
         {
             var FileDialog = ServiceLocator.Current.GetInstance<IFileDialogService>();
             string FileName = await FileDialog.SaveFileDialog(null, "CSV Files (*.csv)|*.csv|RTF Files (*.rtf)|*.rtf", "File dialog service", "test.rtf");
@@ -63,5 +64,26 @@ namespace Kelary.Infrastructure.Showcase.ViewModel
             }
         }
 
+        public ICommand CommandShowDialog
+        {
+            get => new RelayCommand(OnShowDialog);
+        }
+
+        private async void OnShowDialog()
+        {
+            var Navigation = ServiceLocator.Current.GetInstance<IWindowNavigationService>();
+            Navigation?.NavigateTo("dialog", new DialogViewModel());
+        }
+
+        public ICommand CommandShowMessage
+        {
+            get => new RelayCommand(OnMessage);
+        }
+
+        private async void OnMessage()
+        {
+            var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
+            await dialog?.ShowMessage("Hey there!", "Message");
+        }
     }
 }

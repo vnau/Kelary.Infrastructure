@@ -76,7 +76,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\FirstViewModel.cs" />
+    <Compile Include="ViewModel\DialogViewModel.cs" />
     <Compile Include="ViewModel\SecondViewModel.cs" />
+    <Compile Include="View\DialogView.xaml.cs">
+      <DependentUpon>DialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SecondView.xaml.cs">
       <DependentUpon>SecondView.xaml</DependentUpon>
     </Compile>
@@ -101,6 +105,10 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\DialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\SecondView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

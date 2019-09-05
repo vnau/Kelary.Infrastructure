@@ -58,6 +58,10 @@ namespace Kelary.Infrastructure.Showcase.Services
             navigationService.Configure("first", new Uri("/View/FirstView.xaml", UriKind.Relative));
             navigationService.Configure("second", new Uri("/View/SecondView.xaml", UriKind.Relative));
             SimpleIoc.Default.Register<INavigationService>(() => navigationService);
+
+            var windowNavigationService = new WindowNavigationService();
+            windowNavigationService.Configure("dialog", new Uri("/View/DialogView.xaml", UriKind.Relative));
+            SimpleIoc.Default.Register<IWindowNavigationService>(() => windowNavigationService);
         }
 
         public INavigationService Navigation

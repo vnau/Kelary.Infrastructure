@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kis="clr-namespace:Kelary.Infrastructure.Services;assembly=Kelary.Infrastructure"
         mc:Ignorable="d"
-		  DataContext="{Binding Main, Source={StaticResource Locator}}"
-        Title="Kelary Infrastructure Showcase" Height="350" Width="525">
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Title="Kelary Infrastructure Showcase"
+        Height="350" Width="525"
+        MinHeight="350" MinWidth="525">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
