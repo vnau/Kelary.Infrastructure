@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Kelary.Infrastructure</id>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
     <title>Kelary.Infrastructure</title>
     <authors>Kelary Team</authors>
     <owners>vnau</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Provides infrastructure helpers and services to ease WPF applications development.</description>
     <releaseNotes>Removed packages dependencies.</releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <copyright>Copyright 2019</copyright>
     <tags>xaml wpf infrastructure</tags>
   </metadata>
   <files>
