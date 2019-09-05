@@ -69,17 +69,17 @@ namespace Kelary.Infrastructure.Services
                 return _currentPageKey;
             }
             /*
-						private set
-						{
-							if (_currentPageKey == value)
-							{
-								return;
-							}
+            private set
+            {
+                if (_currentPageKey == value)
+                {
+                    return;
+                }
 
-							_currentPageKey = value;
-							OnPropertyChanged("CurrentPageKey");
-						}
-						*/
+                _currentPageKey = value;
+                OnPropertyChanged("CurrentPageKey");
+            }
+            */
         }
 
         public void GoBack()
@@ -90,12 +90,12 @@ namespace Kelary.Infrastructure.Services
                 window.Close();
             }
             /*
-			if (_historic.Count > 1)
-			{
-				_historic.RemoveAt(_historic.Count - 1);
-				NavigateTo(_historic.Last(), null);
-			}
-			*/
+            if (_historic.Count > 1)
+            {
+                _historic.RemoveAt(_historic.Count - 1);
+                NavigateTo(_historic.Last(), null);
+            }
+            */
         }
 
         Stack<Window> WindowStack = new Stack<Window>();
@@ -121,8 +121,12 @@ namespace Kelary.Infrastructure.Services
                 {
                     var uri = _pagesByKey[pageKey];
                     var control = Application.LoadComponent(uri) as UserControl;
-                    //window.SizeToContent = SizeToContent.WidthAndHeight;
                     window.Content = control;
+                    window.SourceInitialized += (s, e) =>
+                    {
+                        window.MinWidth = window.ActualWidth;
+                        window.MinHeight = window.ActualHeight;
+                    };
                     //if (viewModel != null)
                     //	window.DataContext = viewModel;
                     if (parameter != null)
@@ -131,7 +135,6 @@ namespace Kelary.Infrastructure.Services
                     window.Closed += Window_Closed;
                 }
                 WindowStack.Push(window);
-                //WindowStack.p(window);
                 _MainFrame.Dispatcher.BeginInvoke((Action)(() => window.ShowDialog()));
             }
         }
