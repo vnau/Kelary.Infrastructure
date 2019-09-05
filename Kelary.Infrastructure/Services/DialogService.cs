@@ -27,74 +27,87 @@ using System.Windows;
 
 namespace Kelary.Infrastructure.Services
 {
-	/// <summary>
-	/// Defining how dialogs should be displayed in Windows.
-	/// 100% compatible with MVVM Light IDialogService.
-	/// </summary>
-	public class DialogService : IDialogService
-	{
-		public async Task ShowError(Exception error, string title, string buttonText, Action afterHideCallback)
-		{
-			await ShowMessageBoxInternal(error.Message, title, afterHideCallback, MessageBoxImage.Error);
-		}
+    /// <summary>
+    /// Defining how dialogs should be displayed in Windows.
+    /// 100% compatible with MVVM Light IDialogService.
+    /// </summary>
+    public class DialogService : IDialogService
+    {
+        public async Task ShowError(Exception error, string title, string buttonText, Action afterHideCallback)
+        {
+            await ShowMessageBoxInternal(error.Message, title, afterHideCallback, MessageBoxImage.Error);
+        }
 
-		public async Task ShowError(string message, string title, string buttonText, Action afterHideCallback)
-		{
-			await ShowMessageBoxInternal(message, title, afterHideCallback, MessageBoxImage.Error);
-		}
+        public async Task ShowError(string message, string title, string buttonText, Action afterHideCallback)
+        {
+            await ShowMessageBoxInternal(message, title, afterHideCallback, MessageBoxImage.Error);
+        }
 
-		public async Task ShowMessage(string message, string title)
-		{
-			await ShowMessageBoxInternal(message, title, null, MessageBoxImage.Information);
-		}
+        public async Task ShowMessage(string message, string title)
+        {
+            await ShowMessageBoxInternal(message, title, null, MessageBoxImage.Information);
+        }
 
-		public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)
-		{
-			await ShowMessageBoxInternal(message, title, afterHideCallback, MessageBoxImage.Information);
-		}
+        public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)
+        {
+            await ShowMessageBoxInternal(message, title, afterHideCallback, MessageBoxImage.Information);
+        }
 
-		public async Task<bool> ShowMessage(string message, string title, string buttonConfirmText, string buttonCancelText, Action<bool> afterHideCallback)
-		{
-			var MainWindow = Application.Current.MainWindow;
+        public async Task<bool> ShowMessage(string message, string title, string buttonConfirmText, string buttonCancelText, Action<bool> afterHideCallback)
+        {
+            var MainWindow = Application.Current.MainWindow;
 
-			if (!MainWindow.IsVisible)
-			{
-				var dialogResult = MessageBox.Show(message, title, buttonConfirmText == "Yes" ? MessageBoxButton.YesNo : MessageBoxButton.OKCancel, MessageBoxImage.Question);
-				bool result = (dialogResult == MessageBoxResult.OK || dialogResult == MessageBoxResult.Yes);
-				afterHideCallback?.Invoke(result);
-				return result;
-			}
-			return await Application.Current.Dispatcher.InvokeAsync<bool>(() =>
-			{
-				var dialogResult = MessageBox.Show(MainWindow, message, title, buttonConfirmText == "Yes" ? MessageBoxButton.YesNo : MessageBoxButton.OKCancel, MessageBoxImage.Question);
-				bool result = (dialogResult == MessageBoxResult.OK || dialogResult == MessageBoxResult.Yes);
-				afterHideCallback?.Invoke(result);
-				return result;
-			});
-		}
+            if (!MainWindow.IsVisible)
+            {
+                var dialogResult = MessageBox.Show(message, title, buttonConfirmText == "Yes" ? MessageBoxButton.YesNo : MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                bool result = (dialogResult == MessageBoxResult.OK || dialogResult == MessageBoxResult.Yes);
+                afterHideCallback?.Invoke(result);
+                return result;
+            }
+            return await Application.Current.Dispatcher.InvokeAsync<bool>(() =>
+            {
+                var dialogResult = MessageBox.Show(MainWindow, message, title, buttonConfirmText == "Yes" ? MessageBoxButton.YesNo : MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                bool result = (dialogResult == MessageBoxResult.OK || dialogResult == MessageBoxResult.Yes);
+                afterHideCallback?.Invoke(result);
+                return result;
+            });
+        }
 
-		public async Task ShowMessageBox(string message, string title)
-		{
-			await ShowMessageBoxInternal(message, title, null, MessageBoxImage.Information);
-		}
+        public async Task ShowMessageBox(string message, string title)
+        {
+            await ShowMessageBoxInternal(message, title, null, MessageBoxImage.Information);
+        }
 
-		private async Task ShowMessageBoxInternal(string message, string title, Action afterHideCallback, MessageBoxImage Image)
-		{
-			var MainWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+        private async Task ShowMessageBoxInternalDisp(string message, string title, Action afterHideCallback, MessageBoxImage Image)
+        {
+            var MainWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            if (MainWindow == null || !MainWindow.IsVisible)
+            {
+                // Show synchronous if main window is invisible.
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+                afterHideCallback?.Invoke();
+            }
+            else
+            {
+                MessageBox.Show(MainWindow, message, title, MessageBoxButton.OK, Image);
+                afterHideCallback?.Invoke();
+            }
+        }
 
-			if (MainWindow == null || !MainWindow.IsVisible)
-			{
-				// Show synchronous if main window is invisible.
-				MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
-				afterHideCallback?.Invoke();
-			}
-			else
-				await Application.Current.Dispatcher.InvokeAsync(() =>
-				{
-					MessageBox.Show(MainWindow, message, title, MessageBoxButton.OK, Image);
-					afterHideCallback?.Invoke();
-				});
-		}
-
-	}
+        private async Task ShowMessageBoxInternal(string message, string title, Action afterHideCallback, MessageBoxImage Image)
+        {
+            var dispatcher = Application.Current.Dispatcher;
+            if (dispatcher.CheckAccess())
+            {
+                await ShowMessageBoxInternalDisp(message, title, afterHideCallback, Image);
+            }
+            else
+            {
+                await Application.Current.Dispatcher.InvokeAsync(async () =>
+                {
+                    await ShowMessageBoxInternalDisp(message, title, afterHideCallback, Image);
+                });
+            }
+        }
+    }
 }
