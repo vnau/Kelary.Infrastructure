@@ -21,6 +21,7 @@
 #endregion
 
 using Microsoft.Win32;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -37,7 +38,7 @@ namespace Kelary.Infrastructure.Services
         /// <returns>An array that contains one file name for each selected file.</returns>
         public async Task<string[]> OpenFileDialog(string InitialDirectory, string Filter, string Title = null, bool MultiSelect = false)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
+            var dialog = new OpenFileDialog();
             if (!string.IsNullOrEmpty(InitialDirectory))
                 dialog.InitialDirectory = InitialDirectory;
             if (!string.IsNullOrEmpty(Filter))
@@ -85,5 +86,44 @@ namespace Kelary.Infrastructure.Services
                 return null;
             });
         }
+
+        private string ShowFolderBrowserDialog(string InitialDirectory, string Description = null)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                if (!string.IsNullOrEmpty(InitialDirectory))
+                    dialog.SelectedPath = InitialDirectory;
+
+                if (!string.IsNullOrEmpty(Description))
+                    dialog.Description = Description;
+
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    return dialog.SelectedPath;
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Displays folder browser dialog.
+        /// </summary>
+        /// <param name="InitialDirectory">The initial directory that is displayed by a folder browser dialog.</param>
+        /// <param name="Description">Descriptive text displayed above the tree view control in the dialog box.</param>
+        /// <returns>A string that contains path for selected folder.</returns>
+        public async Task<string> FolderBrowserDialog(string InitialDirectory, string Description = null)
+        {
+            var dispatcher = Application.Current.Dispatcher;
+            if (dispatcher.CheckAccess())
+            {
+                //return await Task.Factory.StartNew(() => ShowFolderBrowserDialog(InitialDirectory, Description));
+                return ShowFolderBrowserDialog(InitialDirectory, Description);
+            }
+            return await Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    return ShowFolderBrowserDialog(InitialDirectory, Description);
+                });
+        }
     }
 }
+

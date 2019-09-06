@@ -24,27 +24,35 @@ using System.Threading.Tasks;
 
 namespace Kelary.Infrastructure.Services
 {
-	/// <summary>
-	/// An interface defining how file dialogs would be displayed.
-	/// </summary>
-	public interface IFileDialogService
-	{
-		/// <summary>
-		/// Displays open file dialog.
-		/// </summary>
-		/// <param name="InitialDirectory">The initial directory that is displayed by a file dialog.</param>
-		/// <param name="Filter">The default extension string to use to filter the list of files that are displayed.</param> 
-		/// <param name="MultiSelect">An option indicationg whether dialog allows users to select multiple files.</param>
-		/// <returns>An array that contains one file name for each selected file.</returns>
-		Task<string[]> OpenFileDialog(string InitialDirectory, string Filter, string Title = null, bool MultiSelect = false);
+    /// <summary>
+    /// An interface defining how file dialogs would be displayed.
+    /// </summary>
+    public interface IFileDialogService
+    {
+        /// <summary>
+        /// Displays open file dialog.
+        /// </summary>
+        /// <param name="InitialDirectory">The initial directory that is displayed by a file dialog.</param>
+        /// <param name="Filter">The default extension string to use to filter the list of files that are displayed.</param> 
+        /// <param name="MultiSelect">An option indicationg whether dialog allows users to select multiple files.</param>
+        /// <returns>An array that contains one file name for each selected file.</returns>
+        Task<string[]> OpenFileDialog(string InitialDirectory, string Filter, string Title = null, bool MultiSelect = false);
 
-		/// <summary>
-		/// Displays save file dialog.
-		/// </summary>
-		/// <param name="InitialDirectory">The initial directory that is displayed by a file dialog.</param>
-		/// <param name="Filter">The default extension string to use to filter the list of files that are displayed.</param> 
-		/// <param name="FileName">String containing full path of the file selected in a file dialog.</param>
-		/// <returns>A string that contains file name for selected file.</returns>
-		Task<string> SaveFileDialog(string InitialDirectory, string Filter, string Title = null, string FileName = null);
-	}
+        /// <summary>
+        /// Displays save file dialog.
+        /// </summary>
+        /// <param name="InitialDirectory">The initial directory that is displayed by a file dialog.</param>
+        /// <param name="Filter">The default extension string to use to filter the list of files that are displayed.</param> 
+        /// <param name="FileName">String containing full path of the file selected in a file dialog.</param>
+        /// <returns>A string that contains file name for selected file.</returns>
+        Task<string> SaveFileDialog(string InitialDirectory, string Filter, string Title = null, string FileName = null);
+
+        /// <summary>
+        /// Displays folder browser dialog.
+        /// </summary>
+        /// <param name="InitialDirectory">The initial directory that is displayed by a folder browser dialog.</param>
+        /// <param name="Description">Descriptive text displayed above the tree view control in the dialog box.</param>
+        /// <returns>A string that contains path for selected folder.</returns>
+        Task<string> FolderBrowserDialog(string InitialDirectory, string Description = null);
+    }
 }
