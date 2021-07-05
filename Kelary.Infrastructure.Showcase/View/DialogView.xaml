@@ -16,8 +16,9 @@
 					  HorizontalAlignment="Stretch" VerticalAlignment="Top"
 					  TextAlignment="Center" FontSize="30"
 					  Text="Dialog View"/>
-        <WrapPanel  Grid.Row="1" HorizontalAlignment="Right">
-            <Button Command="{Binding CommandBack}"
+		<Button Width="150" Height="30" Margin="5" Command="{Binding CommandShowMessage}">Show Message</Button>
+		<WrapPanel  Grid.Row="1" HorizontalAlignment="Right">
+			<Button Command="{Binding CommandBack}"
 					  Content="Close"
 					  VerticalAlignment="Stretch"
 					  Width="75" Height="30" Margin="10"/>

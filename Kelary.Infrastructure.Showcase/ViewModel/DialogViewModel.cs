@@ -47,5 +47,15 @@ namespace Kelary.Infrastructure.Showcase.ViewModel
             Navigation?.GoBack();
         }
 
+        public ICommand CommandShowMessage
+        {
+            get => new RelayCommand(OnMessage);
+        }
+
+        private async void OnMessage()
+        {
+            var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
+            await dialog?.ShowMessage("Hey there!", "Message");
+        }
     }
 }
