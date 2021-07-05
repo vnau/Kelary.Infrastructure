@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Kelary.Infrastructure</id>
-    <version>1.3.3</version>
+    <version>1.3.4</version>
     <title>Kelary.Infrastructure</title>
     <authors>Kelary Team</authors>
     <owners>vnau</owners>
@@ -11,8 +11,8 @@
     <iconUrl>http://kelary.ru/kelary.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Provides infrastructure helpers and services to ease WPF applications development.</description>
-    <releaseNotes>Folder browser dialog added.</releaseNotes>
-    <copyright>Copyright 2019</copyright>
+    <releaseNotes>Added DeepObservableCollection class.</releaseNotes>
+    <copyright>Copyright 2021</copyright>
     <tags>xaml wpf infrastructure</tags>
   </metadata>
   <files>
