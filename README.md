@@ -8,7 +8,7 @@ Including:
 
 * Various converters
 * Markup style extension
-* ObservableDictionary class
+* ObservableDictionary, DeepObservableCollection classes
 * File Dialog Service
 * Window Navigation Service
 * Page Navigation Service

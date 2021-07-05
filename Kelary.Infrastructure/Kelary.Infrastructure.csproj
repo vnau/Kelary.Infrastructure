@@ -52,6 +52,8 @@
     <Compile Include="Behaviors\DropDownButton.cs" />
     <Compile Include="Behaviors\MarginSetter.cs" />
     <Compile Include="Behaviors\ScrollOnNewItem.cs" />
+    <Compile Include="Collections\DeepObservableCollection.cs" />
+    <Compile Include="Collections\ItemPropertyChangedEventArgs.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DarkenColorConverter.cs" />
     <Compile Include="Converters\DoubleIsNanToVisibilityConverter.cs" />
